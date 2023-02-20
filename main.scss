@@ -1,0 +1,268 @@
+@import "var";
+$background-color:rgb(181, 236, 236);
+$h2-color:rgb(69, 77, 85);
+@mixin  success-text {
+    color: blue;
+    font-size: 25px;
+    font-weight: bold;
+}
+@mixin  danger-text {
+    color: lightcoral;
+    font-size: 22px;
+    font-style: italic;
+}
+.header{
+    width: 100vw;
+    height: 20vh;
+    background-color: lightblue;
+    display: grid;
+    place-items: center;
+}
+
+h2{
+    color: $h2-color;
+    font-size: 20px + 10px;
+    background-color: $background-color;
+    margin-top: 20px;
+    text-align: center;
+}
+.nesting{
+    margin-top: 20px;
+    background-color: darkcyan;
+    padding: 20px 13px;
+    ul{
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+    }
+    li{
+        display: inline-block;
+        margin-right: 100px;
+        width: 200px;
+        background-color: lightseagreen;
+        text-align: center;
+        border: {
+            radius:20px;
+            width: 3px;
+            style: solid;
+            color: rgb(68, 170, 230);
+        }
+
+        a{
+            color: #ffff;
+            text-decoration: none;
+            font-size: 30px;
+            font-family: sans-serif;
+        }
+    }
+}
+.success{
+    @include success-text;
+    background-color: lightblue;
+    padding: 10px;
+}
+.danger{
+    @include danger_text;
+    background-color: rgb(223, 193, 198);
+    padding: 8px;
+    text-align: center;
+}
+.btn-basic{
+    height: 50px;
+    width: 200px;
+    font-size: 22px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    outline: none;
+    border:none;
+    font-weight: bold;
+    color:white;
+}
+.open{
+    @extend .btn-basic;
+    background-color: darkcyan;
+    
+}
+.close{
+    @extend .btn-basic;
+    background-color: rgba(228, 32, 107, 0.89);
+}
+/*  EXAMPLE 1*/
+/*-----------------------*/
+$primary-box-color:#112055;
+$primary-box-text:#fff;
+$primary-box-lighter:#357b70;
+$primary-box-darker: #0c1816;
+$secondary-box-color: #4f9d92;
+$padding : 20px;
+$border-radius: 10px;
+$shadow: 4px 3px 19px 0px rgba(0,0,0,0.3);
+
+.box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px;
+    padding: 20px;
+    font-family: sans-serif;
+    div:hover {
+      box-shadow: none;
+    }
+
+    %box-shape{
+        padding: $padding;
+        border-radius: $border-radius;
+        box-shadow: $shadow;
+        text-align: center;
+        font-size:22px;
+        font-weight: 500
+        
+    }
+    .box-primary{
+        @extend %box-shape;
+        background-color: $primary-box-color;
+        color: $primary-box-text;
+    }
+    .box-primary-lighter {
+        @extend %box-shape;
+        background-color: $primary-box-lighter;
+        color: $primary-box-text;
+    }
+    .box-primary-darker{
+        @extend %box-shape;
+        background-color: $primary-box-darker;
+        color: $primary-box-text;
+    }
+    .box-secondary{
+        @extend %box-shape;
+        background-color: $secondary-box-color;
+        color: $primary-box-text;
+    }
+}
+@media screen and (max-width:920px) {
+    .box{
+        grid-template-columns: 4fr 4fr;
+    }
+}
+@media screen and (max-width:600px) {
+    .box{
+        grid-template-columns: 4fr;
+    }
+}
+
+/*  ACCORDION*/
+/* ------------------ */
+$white: rgba(254,255,250,1);
+$grey: rgb(207, 217, 221);
+$darkcyan: rgb(13, 138, 138);
+$black: rgba(48,69,92,0.8);
+
+.transition{
+    transition: all 0.25s ease-in-out;
+}
+
+.flipIn{
+    animation: flipdown 0.5s ease both;
+}
+.accordion{
+    font-family: sans-serif;
+    margin: 50px 0px;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%,0);
+    box-shadow: 3px 6px 15px $grey;
+    background-color: $white;
+    max-width: 450px;
+    padding: 30px;
+
+    @media ( max-width:600px ){
+        box-sizing: border-box;
+        transform: translate( 0 , 0 );
+        max-width: 100%;
+        min-height: 100%;
+        margin: 0;
+        left: 0;
+    }
+    h3{
+        color: $darkcyan;
+        font-size: 22px;
+        display: block;
+        line-height: 27px;
+        letter-spacing: 1px;
+        cursor: pointer;
+    }
+    p{
+        color: $black;
+        font-size: 17px;
+        line-height: 26px;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+        max-height: 600px;
+        @extend .transition;
+        opacity: 1;
+        transform: translate( 0 , 0 );  
+        margin-top: 14px;
+        z-index: 2;
+    }
+    ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li{
+            border-top: 2px solid $grey;
+            padding-top: 10px;
+            @extend .flipIn;
+            &:nth-of-type(1){
+                border-top: none;
+            }
+        }
+        i{
+            position: absolute;
+            transform: translate( -6px , 0 );
+            margin-top: 16px;
+            right: 31px;
+
+            &:before , &:after{
+                content: "";
+                @extend .transition;
+                position: absolute;
+                background-color: $darkcyan;
+                width: 3px;
+                height: 9px;
+            }
+            &:before{
+                transform: translate( -2px , 0 ) rotate( 45deg )
+            }
+            &:after{
+                transform: translate( 2px , 0 ) rotate( -45deg )
+            }
+        }
+        input[type=checkbox]{
+            position: absolute;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+
+            &:checked{
+                &~p{
+                    margin-top: 0;
+                    max-height: 0;
+                    opacity: 0;
+                    transform: translate( 0 , 50% );
+                }
+                &~i{
+                    &:before{
+                        transform: translate( 2px , 0 ) rotate( 45deg );
+                    }
+                    &:after{
+                        transform: translate( -2px , 0 ) rotate( -45deg )
+                    }
+                }
+            }
+        }
+    }
+}
